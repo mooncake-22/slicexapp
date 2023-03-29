@@ -1,0 +1,52 @@
+{
+    "name": "SLA Policy Type Schema",
+    "description": "SLA Parameters",
+    "policy_type_id": 22222,
+    "create_schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "title": "SLA Policy",
+        "description": "SLA policy type",
+        "type": "object",
+        "properties": {
+            "Member": {
+                "additionalProperties": false,
+                "type": "object",
+                "properties": {
+                    "PlmnId": {
+                        "type": "string",
+                        "pattern": "[f,0-9]",
+                        "minLength": 6,
+                        "maxLength": 6
+                    },
+                    "Sst": {
+                        "type": "string",
+                        "minLength": 2,
+                        "maxLength": 2
+                    },
+                    "Sd": {
+                        "type": "string",
+                        "minLength": 0,
+                        "maxLength": 6
+                    }
+                },
+                "required": [
+                    "PlmnId",
+                    "Sst"
+                ]
+            },
+            "SLAParameter": {
+                "additionalProperties": false,
+                "type": "object",
+                "properties": {
+                    "TargetThroughput": {
+                        "type": "number",
+                        "minimum": 0 
+                    }
+                },
+                "required": [
+                    "TargetThroughput"
+                ]
+            }
+        }
+    }
+}

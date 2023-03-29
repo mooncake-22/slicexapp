@@ -1,0 +1,70 @@
+{
+    "name": "slicexapp",
+    "version": "0.0.1",
+    "containers": [
+        {
+            "name": "slicexapp",
+            "image": {
+                "registry": "docker.io",
+                "name": "mooncake22/slicexapp",
+                "tag": "0.0.1"
+            }
+        }
+    ],
+    "messaging": {
+        "ports": [
+            {
+                "name": "http",
+                "container": "slicexapp",
+                "port": 8080,
+                "description": "http service"
+            },
+            {
+                "name": "rmrroute",
+                "container": "slicexapp",
+                "port": 4561,
+                "description": "rmr route port for slicexapp xapp"
+            },
+            {
+                "name": "rmrdata",
+                "container": "slicexapp",
+                "port": 4560,
+                "rxMessages": [
+                    "A1_POLICY_REQ",
+                    "RIC_HEALTH_CHECK_REQ"
+                ],
+                "txMessages": [
+                    "A1_POLICY_RESP", 
+                    "A1_POLICY_QUERY", 
+                    "RIC_HEALTH_CHECK_RESP"
+                ],
+                "policies": [22222],
+                "description": "rmr data port for slicexapp"
+            }
+        ]
+    },
+    "rmr": {
+        "protPort": "tcp:4560",
+        "maxSize": 2072,
+        "numWorkers": 1,
+        "txMessages": [
+            "A1_POLICY_RESP", 
+            "A1_POLICY_QUERY", 
+            "RIC_HEALTH_CHECK_RESP"
+        ],
+        "rxMessages": [
+            "A1_POLICY_REQ",
+            "RIC_HEALTH_CHECK_REQ"
+        ],
+        "policies": [22222]
+    },
+    "logger":{
+        "log-level": "DEBUG"
+    },
+    "controls": {
+        "fileStrorage": false
+    },
+    "db" : {
+        "waitForSdl": false
+    }
+}
