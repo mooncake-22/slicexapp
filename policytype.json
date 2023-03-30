@@ -14,17 +14,19 @@
                 "properties": {
                     "PlmnId": {
                         "type": "string",
-                        "pattern": "[f,0-9]",
+                        "pattern": "[0-9, f]{6}",
                         "minLength": 6,
                         "maxLength": 6
                     },
                     "Sst": {
                         "type": "string",
+                        "pattern": "[0-9, a-f]",
                         "minLength": 2,
                         "maxLength": 2
                     },
                     "Sd": {
                         "type": "string",
+                        "pattern": "[0-9, a-f]",
                         "minLength": 0,
                         "maxLength": 6
                     }
