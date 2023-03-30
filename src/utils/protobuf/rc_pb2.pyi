@@ -35,18 +35,6 @@ class Member(_message.Message):
     sst: str
     def __init__(self, plmnId: _Optional[str] = ..., sst: _Optional[str] = ..., sd: _Optional[str] = ...) -> None: ...
 
-class Policy(_message.Message):
-    __slots__ = ["dedPRB", "maxPRB", "member", "minPRB"]
-    DEDPRB_FIELD_NUMBER: _ClassVar[int]
-    MAXPRB_FIELD_NUMBER: _ClassVar[int]
-    MEMBER_FIELD_NUMBER: _ClassVar[int]
-    MINPRB_FIELD_NUMBER: _ClassVar[int]
-    dedPRB: int
-    maxPRB: int
-    member: _containers.RepeatedCompositeFieldContainer[Member]
-    minPRB: int
-    def __init__(self, member: _Optional[_Iterable[_Union[Member, _Mapping]]] = ..., minPRB: _Optional[int] = ..., maxPRB: _Optional[int] = ..., dedPRB: _Optional[int] = ...) -> None: ...
-
 class RICControlHeader(_message.Message):
     __slots__ = ["ControlActionId", "ControlStyle", "UEID"]
     CONTROLACTIONID_FIELD_NUMBER: _ClassVar[int]
@@ -58,10 +46,22 @@ class RICControlHeader(_message.Message):
     def __init__(self, ControlStyle: _Optional[int] = ..., ControlActionId: _Optional[int] = ..., UEID: _Optional[_Union[UeId, _Mapping]] = ...) -> None: ...
 
 class RICControlMessage(_message.Message):
-    __slots__ = ["policy"]
-    POLICY_FIELD_NUMBER: _ClassVar[int]
-    policy: _containers.RepeatedCompositeFieldContainer[Policy]
-    def __init__(self, policy: _Optional[_Iterable[_Union[Policy, _Mapping]]] = ...) -> None: ...
+    __slots__ = ["RICControlCellTypeVal", "TargetCellID"]
+    RICCONTROLCELLTYPEVAL_FIELD_NUMBER: _ClassVar[int]
+    RICControlCellTypeVal: RICControlCellTypeEnum
+    TARGETCELLID_FIELD_NUMBER: _ClassVar[int]
+    TargetCellID: str
+    def __init__(self, RICControlCellTypeVal: _Optional[_Union[RICControlCellTypeEnum, str]] = ..., TargetCellID: _Optional[str] = ...) -> None: ...
+
+class RICControlRequest_RRMPolicy(_message.Message):
+    __slots__ = ["ranFuncId", "ranName", "rrmPolicy"]
+    RANFUNCID_FIELD_NUMBER: _ClassVar[int]
+    RANNAME_FIELD_NUMBER: _ClassVar[int]
+    RRMPOLICY_FIELD_NUMBER: _ClassVar[int]
+    ranFuncId: int
+    ranName: str
+    rrmPolicy: _containers.RepeatedCompositeFieldContainer[RrmPolicy]
+    def __init__(self, ranName: _Optional[str] = ..., ranFuncId: _Optional[int] = ..., rrmPolicy: _Optional[_Iterable[_Union[RrmPolicy, _Mapping]]] = ...) -> None: ...
 
 class RICE2APHeader(_message.Message):
     __slots__ = ["RICRequestorID", "RanFuncId"]
@@ -96,6 +96,18 @@ class RicControlGrpcRsp(_message.Message):
     description: str
     rspCode: int
     def __init__(self, rspCode: _Optional[int] = ..., description: _Optional[str] = ...) -> None: ...
+
+class RrmPolicy(_message.Message):
+    __slots__ = ["dedPRB", "maxPRB", "member", "minPRB"]
+    DEDPRB_FIELD_NUMBER: _ClassVar[int]
+    MAXPRB_FIELD_NUMBER: _ClassVar[int]
+    MEMBER_FIELD_NUMBER: _ClassVar[int]
+    MINPRB_FIELD_NUMBER: _ClassVar[int]
+    dedPRB: int
+    maxPRB: int
+    member: _containers.RepeatedCompositeFieldContainer[Member]
+    minPRB: int
+    def __init__(self, member: _Optional[_Iterable[_Union[Member, _Mapping]]] = ..., minPRB: _Optional[int] = ..., maxPRB: _Optional[int] = ..., dedPRB: _Optional[int] = ...) -> None: ...
 
 class UeId(_message.Message):
     __slots__ = ["GnbUEID"]

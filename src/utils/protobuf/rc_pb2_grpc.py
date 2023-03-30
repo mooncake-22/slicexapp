@@ -20,6 +20,11 @@ class MsgCommStub(object):
                 request_serializer=rc__pb2.RicControlGrpcReq.SerializeToString,
                 response_deserializer=rc__pb2.RicControlGrpcRsp.FromString,
                 )
+        self.SendRRMPolicyServiceGrpc = channel.unary_unary(
+                '/rc.MsgComm/SendRRMPolicyServiceGrpc',
+                request_serializer=rc__pb2.RICControlRequest_RRMPolicy.SerializeToString,
+                response_deserializer=rc__pb2.RicControlGrpcRsp.FromString,
+                )
 
 
 class MsgCommServicer(object):
@@ -33,12 +38,23 @@ class MsgCommServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def SendRRMPolicyServiceGrpc(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_MsgCommServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'SendRICControlReqServiceGrpc': grpc.unary_unary_rpc_method_handler(
                     servicer.SendRICControlReqServiceGrpc,
                     request_deserializer=rc__pb2.RicControlGrpcReq.FromString,
+                    response_serializer=rc__pb2.RicControlGrpcRsp.SerializeToString,
+            ),
+            'SendRRMPolicyServiceGrpc': grpc.unary_unary_rpc_method_handler(
+                    servicer.SendRRMPolicyServiceGrpc,
+                    request_deserializer=rc__pb2.RICControlRequest_RRMPolicy.FromString,
                     response_serializer=rc__pb2.RicControlGrpcRsp.SerializeToString,
             ),
     }
@@ -65,6 +81,23 @@ class MsgComm(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/rc.MsgComm/SendRICControlReqServiceGrpc',
             rc__pb2.RicControlGrpcReq.SerializeToString,
+            rc__pb2.RicControlGrpcRsp.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def SendRRMPolicyServiceGrpc(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/rc.MsgComm/SendRRMPolicyServiceGrpc',
+            rc__pb2.RICControlRequest_RRMPolicy.SerializeToString,
             rc__pb2.RicControlGrpcRsp.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

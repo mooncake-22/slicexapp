@@ -13,17 +13,17 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x08rc.proto\x12\x02rc\":\n\rRICE2APHeader\x12\x11\n\tRanFuncId\x18\x01 \x01(\x03\x12\x16\n\x0eRICRequestorID\x18\x02 \x01(\x03\"Y\n\x10RICControlHeader\x12\x14\n\x0c\x43ontrolStyle\x18\x01 \x01(\x03\x12\x17\n\x0f\x43ontrolActionId\x18\x02 \x01(\x03\x12\x16\n\x04UEID\x18\x03 \x01(\x0b\x32\x08.rc.UeId\"$\n\x04UeId\x12\x1c\n\x07GnbUEID\x18\x01 \x01(\x0b\x32\x0b.rc.gNBUEID\"h\n\x07gNBUEID\x12\x13\n\x0b\x61mfUENGAPID\x18\x01 \x01(\x03\x12\x18\n\x05guami\x18\x02 \x01(\x0b\x32\t.rc.Guami\x12\x15\n\rgNBCUUEF1APID\x18\x03 \x03(\x03\x12\x17\n\x0fgNBCUCPUEE1APID\x18\x04 \x03(\x03\"X\n\x05Guami\x12\x14\n\x0cpLMNIdentity\x18\x01 \x01(\t\x12\x13\n\x0b\x61MFRegionID\x18\x02 \x01(\t\x12\x10\n\x08\x61MFSetID\x18\x03 \x01(\t\x12\x12\n\naMFPointer\x18\x04 \x01(\t\"1\n\x06Member\x12\x0e\n\x06plmnId\x18\x01 \x01(\t\x12\x0b\n\x03sst\x18\x02 \x01(\t\x12\n\n\x02sd\x18\x03 \x01(\t\"T\n\x06Policy\x12\x1a\n\x06member\x18\x01 \x03(\x0b\x32\n.rc.Member\x12\x0e\n\x06minPRB\x18\x02 \x01(\x03\x12\x0e\n\x06maxPRB\x18\x03 \x01(\x03\x12\x0e\n\x06\x64\x65\x64PRB\x18\x04 \x01(\x03\"/\n\x11RICControlMessage\x12\x1a\n\x06policy\x18\x01 \x03(\x0b\x32\n.rc.Policy\"\x92\x02\n\x11RicControlGrpcReq\x12\x10\n\x08\x65\x32NodeID\x18\x01 \x01(\t\x12\x0e\n\x06plmnID\x18\x02 \x01(\t\x12\x0f\n\x07ranName\x18\x03 \x01(\t\x12,\n\x11RICE2APHeaderData\x18\x04 \x01(\x0b\x32\x11.rc.RICE2APHeader\x12\x32\n\x14RICControlHeaderData\x18\x05 \x01(\x0b\x32\x14.rc.RICControlHeader\x12\x34\n\x15RICControlMessageData\x18\x06 \x01(\x0b\x32\x15.rc.RICControlMessage\x12\x32\n\x13RICControlAckReqVal\x18\x07 \x01(\x0e\x32\x15.rc.RICControlAckEnum\"9\n\x11RicControlGrpcRsp\x12\x0f\n\x07rspCode\x18\x01 \x01(\x05\x12\x13\n\x0b\x64\x65scription\x18\x02 \x01(\t*k\n\x16RICControlCellTypeEnum\x12\x1b\n\x17RIC_CONTROL_CELL_UNKWON\x10\x00\x12\x17\n\x13RIC_CONTROL_NR_CELL\x10\x01\x12\x1b\n\x17RIC_CONTROL_EUTRAN_CELL\x10\x02*r\n\x11RICControlAckEnum\x12\x1a\n\x16RIC_CONTROL_ACK_UNKWON\x10\x00\x12\x16\n\x12RIC_CONTROL_NO_ACK\x10\x01\x12\x13\n\x0fRIC_CONTROL_ACK\x10\x02\x12\x14\n\x10RIC_CONTROL_NACK\x10\x03\x32W\n\x07MsgComm\x12L\n\x1cSendRICControlReqServiceGrpc\x12\x15.rc.RicControlGrpcReq\x1a\x15.rc.RicControlGrpcRspb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x08rc.proto\x12\x02rc\":\n\rRICE2APHeader\x12\x11\n\tRanFuncId\x18\x01 \x01(\x03\x12\x16\n\x0eRICRequestorID\x18\x02 \x01(\x03\"Y\n\x10RICControlHeader\x12\x14\n\x0c\x43ontrolStyle\x18\x01 \x01(\x03\x12\x17\n\x0f\x43ontrolActionId\x18\x02 \x01(\x03\x12\x16\n\x04UEID\x18\x03 \x01(\x0b\x32\x08.rc.UeId\"$\n\x04UeId\x12\x1c\n\x07GnbUEID\x18\x01 \x01(\x0b\x32\x0b.rc.gNBUEID\"h\n\x07gNBUEID\x12\x13\n\x0b\x61mfUENGAPID\x18\x01 \x01(\x03\x12\x18\n\x05guami\x18\x02 \x01(\x0b\x32\t.rc.Guami\x12\x15\n\rgNBCUUEF1APID\x18\x03 \x03(\x03\x12\x17\n\x0fgNBCUCPUEE1APID\x18\x04 \x03(\x03\"X\n\x05Guami\x12\x14\n\x0cpLMNIdentity\x18\x01 \x01(\t\x12\x13\n\x0b\x61MFRegionID\x18\x02 \x01(\t\x12\x10\n\x08\x61MFSetID\x18\x03 \x01(\t\x12\x12\n\naMFPointer\x18\x04 \x01(\t\"d\n\x11RICControlMessage\x12\x39\n\x15RICControlCellTypeVal\x18\x01 \x01(\x0e\x32\x1a.rc.RICControlCellTypeEnum\x12\x14\n\x0cTargetCellID\x18\x02 \x01(\t\"\x92\x02\n\x11RicControlGrpcReq\x12\x10\n\x08\x65\x32NodeID\x18\x01 \x01(\t\x12\x0e\n\x06plmnID\x18\x02 \x01(\t\x12\x0f\n\x07ranName\x18\x03 \x01(\t\x12,\n\x11RICE2APHeaderData\x18\x04 \x01(\x0b\x32\x11.rc.RICE2APHeader\x12\x32\n\x14RICControlHeaderData\x18\x05 \x01(\x0b\x32\x14.rc.RICControlHeader\x12\x34\n\x15RICControlMessageData\x18\x06 \x01(\x0b\x32\x15.rc.RICControlMessage\x12\x32\n\x13RICControlAckReqVal\x18\x07 \x01(\x0e\x32\x15.rc.RICControlAckEnum\"9\n\x11RicControlGrpcRsp\x12\x0f\n\x07rspCode\x18\x01 \x01(\x05\x12\x13\n\x0b\x64\x65scription\x18\x02 \x01(\t\"1\n\x06Member\x12\x0e\n\x06plmnId\x18\x01 \x01(\t\x12\x0b\n\x03sst\x18\x02 \x01(\t\x12\n\n\x02sd\x18\x03 \x01(\t\"W\n\tRrmPolicy\x12\x1a\n\x06member\x18\x01 \x03(\x0b\x32\n.rc.Member\x12\x0e\n\x06minPRB\x18\x02 \x01(\x03\x12\x0e\n\x06maxPRB\x18\x03 \x01(\x03\x12\x0e\n\x06\x64\x65\x64PRB\x18\x04 \x01(\x03\"c\n\x1bRICControlRequest_RRMPolicy\x12\x0f\n\x07ranName\x18\x01 \x01(\t\x12\x11\n\tranFuncId\x18\x02 \x01(\x03\x12 \n\trrmPolicy\x18\x03 \x03(\x0b\x32\r.rc.RrmPolicy*k\n\x16RICControlCellTypeEnum\x12\x1b\n\x17RIC_CONTROL_CELL_UNKWON\x10\x00\x12\x17\n\x13RIC_CONTROL_NR_CELL\x10\x01\x12\x1b\n\x17RIC_CONTROL_EUTRAN_CELL\x10\x02*r\n\x11RICControlAckEnum\x12\x1a\n\x16RIC_CONTROL_ACK_UNKWON\x10\x00\x12\x16\n\x12RIC_CONTROL_NO_ACK\x10\x01\x12\x13\n\x0fRIC_CONTROL_ACK\x10\x02\x12\x14\n\x10RIC_CONTROL_NACK\x10\x03\x32\xab\x01\n\x07MsgComm\x12L\n\x1cSendRICControlReqServiceGrpc\x12\x15.rc.RicControlGrpcReq\x1a\x15.rc.RicControlGrpcRsp\x12R\n\x18SendRRMPolicyServiceGrpc\x12\x1f.rc.RICControlRequest_RRMPolicy\x1a\x15.rc.RicControlGrpcRspb\x06proto3')
 
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'rc_pb2', globals())
 if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
-  _RICCONTROLCELLTYPEENUM._serialized_start=923
-  _RICCONTROLCELLTYPEENUM._serialized_end=1030
-  _RICCONTROLACKENUM._serialized_start=1032
-  _RICCONTROLACKENUM._serialized_end=1146
+  _RICCONTROLCELLTYPEENUM._serialized_start=1080
+  _RICCONTROLCELLTYPEENUM._serialized_end=1187
+  _RICCONTROLACKENUM._serialized_start=1189
+  _RICCONTROLACKENUM._serialized_end=1303
   _RICE2APHEADER._serialized_start=16
   _RICE2APHEADER._serialized_end=74
   _RICCONTROLHEADER._serialized_start=76
@@ -34,16 +34,18 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _GNBUEID._serialized_end=309
   _GUAMI._serialized_start=311
   _GUAMI._serialized_end=399
-  _MEMBER._serialized_start=401
-  _MEMBER._serialized_end=450
-  _POLICY._serialized_start=452
-  _POLICY._serialized_end=536
-  _RICCONTROLMESSAGE._serialized_start=538
-  _RICCONTROLMESSAGE._serialized_end=585
-  _RICCONTROLGRPCREQ._serialized_start=588
-  _RICCONTROLGRPCREQ._serialized_end=862
-  _RICCONTROLGRPCRSP._serialized_start=864
-  _RICCONTROLGRPCRSP._serialized_end=921
-  _MSGCOMM._serialized_start=1148
-  _MSGCOMM._serialized_end=1235
+  _RICCONTROLMESSAGE._serialized_start=401
+  _RICCONTROLMESSAGE._serialized_end=501
+  _RICCONTROLGRPCREQ._serialized_start=504
+  _RICCONTROLGRPCREQ._serialized_end=778
+  _RICCONTROLGRPCRSP._serialized_start=780
+  _RICCONTROLGRPCRSP._serialized_end=837
+  _MEMBER._serialized_start=839
+  _MEMBER._serialized_end=888
+  _RRMPOLICY._serialized_start=890
+  _RRMPOLICY._serialized_end=977
+  _RICCONTROLREQUEST_RRMPOLICY._serialized_start=979
+  _RICCONTROLREQUEST_RRMPOLICY._serialized_end=1078
+  _MSGCOMM._serialized_start=1306
+  _MSGCOMM._serialized_end=1477
 # @@protoc_insertion_point(module_scope)
