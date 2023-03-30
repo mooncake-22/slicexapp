@@ -13,26 +13,32 @@ class GRPCHandler(object):
         """
         This function helps to send the gRPC request with protocol buffer parameters.
         """
-        RicControlGrpcReq = rc_pb2.RicControlGrpcReq(
-            e2NodeID = e2NodeCommon.e2NodeId,
-            plmnID   = e2NodeCommon.plmnId,
-            ranName  = e2NodeCommon.ranName,
-
-            RICE2APHeaderData = rc_pb2.RICE2APHeader(
-                RanFuncId      = e2NodeCommon.ranFuncId,
-                RICRequestorID = e2NodeCommon.ricRequestorId
-            ),
-
-            RICControlHeaderData = rc_pb2.RICControlHeader( 
-                ControlStyle    = 2,
-                ControlActionId = 6
-            ),
-
-            RICControlMessageData = self.packRicControlMessage(rrmPolicyList)
+        RicControlGrpcReq = rc_pb2.RICControlRequest_RRMPolicy(
+            ranName   = e2NodeCommon.ranName,
+            ranFuncId = e2NodeCommon.ranFuncId
         )
+
+        for v in rrmPolicyList:
+            rrmPolicy = rc_pb2.RrmPolicy(
+                minPRB = v.minPRB,
+                maxPRB = v.maxPRB,
+                dedPRB = v.dedPRB
+            )
+
+            member = rc_pb2.Member(
+                plmnId = v.plmnId,
+                sst = v.sst,
+                sd = v.sd
+            )
+
+            rrmPolicy.member.append(member)
+            
+            RicControlGrpcReq.rrmPolicy.append(rrmPolicy)
+
         print(RicControlGrpcReq)
+
         try:
-            resp = self.stub.SendRICControlReqServiceGrpc(RicControlGrpcReq)
+            resp = self.stub.SendRRMPolicyServiceGrpc(RicControlGrpcReq)
         except grpc.RpcError as rpc_error:
             if rpc_error.code() == grpc.StatusCode.OK:
                 print("GRPCHandler.send_control_req:: Successfully send the gRPC request to server")
@@ -43,22 +49,3 @@ class GRPCHandler(object):
             else:
                 print(f"GRPCHandler.send_control_req:: Received unknown RPC error: code={rpc_error.code()} message={rpc_error.details()}")
                 return False
-         
-    
-    def packRicControlMessage(self, rrmPolicyList: List[type.RRMPolicy]):
-        """
-        This function helps to pack the rrmPolicylist into RICControlMessage in protocol buffer definition.
-        """
-        RICControlMessageData = rc_pb2.RICControlMessage()
-
-        for v in rrmPolicyList:
-            policy = rc_pb2.Policy(minPRB = v.minPRB, maxPRB = v.maxPRB, dedPRB = v.dedPRB)
-            member = rc_pb2.Member(plmnId = v.plmnId, sst = v.sst, sd = v.sd)
-            policy.member.append(member)
-            RICControlMessageData.policy.append(policy)
-    
-        return RICControlMessageData
-
-
-
-
