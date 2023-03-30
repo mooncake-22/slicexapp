@@ -95,11 +95,8 @@ class SliceXapp:
 
     def getE2NodeInfo(self):
         e2NodeInfo = E2NodeCommon(
-            e2NodeId       = "00000001",
-            plmnId         = "13f184",
             ranName        = "gnb_311_048_00000001",
-            ranFuncId      = 300,
-            ricRequestorId = 2
+            ranFuncId      = 300
         )
         return e2NodeInfo
 
@@ -142,9 +139,9 @@ class SliceXapp:
         rrmPolicyList = []
         for i in policyList:
             rrmPolicy = RRMPolicy(
-                plmnId = policyList[i]["scope"]["PLMNId"],
-                sst    = policyList[i]["scope"]["SST"],
-                sd     = policyList[i]["scope"]["SD"],
+                plmnId = policyList[i]["Member"]["PlmnId"],
+                sst    = policyList[i]["Member"]["Sst"],
+                sd     = policyList[i]["Member"]["Sd"],
                 maxPRB = 100,
                 minPRB = DedicatePrbRatio[v],
                 dedPRB = DedicatePrbRatio[v]
@@ -152,7 +149,6 @@ class SliceXapp:
             v = v + 1
             rrmPolicyList.append(rrmPolicy)
         
-        #self._rmr_xapp.logger.info(rrmPolicyList)
         e2NodeInfo = self.getE2NodeInfo()
         self.grpc.send_control_req(e2NodeInfo, rrmPolicyList)
 

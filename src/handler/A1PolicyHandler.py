@@ -77,8 +77,8 @@ class A1PolicyHandler(_BaseHandler):
         return True
     
     def extractSliceId(self, req: dict):
-        member = req["payload"]["scope"]
-        return member["PLMNId"]+"-"+member["SST"]+"-"+member["SD"]
+        member = req["payload"]["Member"]
+        return member["PlmnId"]+"-"+member["Sst"]+"-"+member["Sd"]
 
     def buildSuccessPolicyResp(self, req: dict):
         req["handler_id"] = self._rmr_xapp.config["name"]
