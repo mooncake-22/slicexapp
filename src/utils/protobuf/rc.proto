@@ -81,8 +81,7 @@ message RrmPolicy {
 
 message RICControlRequest_RRMPolicy {
     string             ranName   = 1;
-    int64              ranFuncId = 2;
-    repeated RrmPolicy rrmPolicy = 3;
+    repeated RrmPolicy rrmPolicy = 2;
 }
 
 // Services to send gRPC

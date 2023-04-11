@@ -54,14 +54,12 @@ class RICControlMessage(_message.Message):
     def __init__(self, RICControlCellTypeVal: _Optional[_Union[RICControlCellTypeEnum, str]] = ..., TargetCellID: _Optional[str] = ...) -> None: ...
 
 class RICControlRequest_RRMPolicy(_message.Message):
-    __slots__ = ["ranFuncId", "ranName", "rrmPolicy"]
-    RANFUNCID_FIELD_NUMBER: _ClassVar[int]
+    __slots__ = ["ranName", "rrmPolicy"]
     RANNAME_FIELD_NUMBER: _ClassVar[int]
     RRMPOLICY_FIELD_NUMBER: _ClassVar[int]
-    ranFuncId: int
     ranName: str
     rrmPolicy: _containers.RepeatedCompositeFieldContainer[RrmPolicy]
-    def __init__(self, ranName: _Optional[str] = ..., ranFuncId: _Optional[int] = ..., rrmPolicy: _Optional[_Iterable[_Union[RrmPolicy, _Mapping]]] = ...) -> None: ...
+    def __init__(self, ranName: _Optional[str] = ..., rrmPolicy: _Optional[_Iterable[_Union[RrmPolicy, _Mapping]]] = ...) -> None: ...
 
 class RICE2APHeader(_message.Message):
     __slots__ = ["RICRequestorID", "RanFuncId"]

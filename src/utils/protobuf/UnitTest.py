@@ -7,8 +7,7 @@ if __name__ == "__main__":
     rrmPolicy = rc.RrmPolicy(minPRB = 25, maxPRB = 85, dedPRB = 15)
     rrmPolicy.member.append(member)
     RICControlRequest=rc.RICControlRequest_RRMPolicy(
-        ranName = "gnb_311_048_00000001",
-        ranFuncId = 1
+        ranName = "gnb_311_048_00000001"
     )
     RICControlRequest.rrmPolicy.append(rrmPolicy)
 

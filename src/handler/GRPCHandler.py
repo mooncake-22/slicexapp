@@ -14,8 +14,7 @@ class GRPCHandler(object):
         This function helps to send the gRPC request with protocol buffer parameters.
         """
         RicControlGrpcReq = rc_pb2.RICControlRequest_RRMPolicy(
-            ranName   = e2NodeCommon.ranName,
-            ranFuncId = e2NodeCommon.ranFuncId
+            ranName   = e2NodeCommon.ranName
         )
 
         for v in rrmPolicyList:
