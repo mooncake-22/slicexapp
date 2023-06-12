@@ -11,7 +11,7 @@ python3 -m grpc_tools.protoc -I=. --python_out=. --pyi_out=. --grpc_python_out=.
 
 ### Re-build the Docker Image
 ```bash=
-sudo docker build -t mooncake22/slicexapp:0.0.1 .
+sudo docker build -t mooncake22/slicexapp:0.0.2 .
 ```
 
 ## Use
@@ -23,14 +23,14 @@ Do remember to install dmscli tool from [appmgr](https://gerrit.o-ran-sc.org/r/g
 ### Step 1: Setup Environment & Build Docker Image
 - Export chart ENV for dmscli
 ```bash=
-sudo export NODE_PORT=$(kubectl get --namespace ricinfra -o jsonpath="{.spec.ports[0].nodePort}" services r4-chartmuseum-chartmuseum)
-sudo export NODE_IP=$(kubectl get nodes --namespace ricinfra -o jsonpath="{.items[0].status.addresses[0].address}")
-sudo export CHART_REPO_URL=http://$NODE_IP:$NODE_PORT/charts
+export NODE_PORT=$(kubectl get --namespace ricinfra -o jsonpath="{.spec.ports[0].nodePort}" services r4-chartmuseum-chartmuseum)
+export NODE_IP=$(kubectl get nodes --namespace ricinfra -o jsonpath="{.items[0].status.addresses[0].address}")
+export CHART_REPO_URL=http://$NODE_IP:$NODE_PORT/charts
 ```
 
 - Build docker image
 ```bash=
-sudo docker build -t mooncake22/slicexapp:0.0.1 .
+sudo docker build -t mooncake22/slicexapp:0.0.2 .
 ```
 
 ### Step 2: Onboard slicexapp descriptor
@@ -41,7 +41,7 @@ dms_cli onboard config-file.json schema.json
 
 ### Step 3: Deploy slicexapp on the RIC platform
 ```bash=
-dms_cli install slicexapp 0.0.1 ricxapp
+dms_cli install slicexapp 0.0.2 ricxapp
 ```
 
 ### Step 4: Create A1 PolicyType Definition

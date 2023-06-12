@@ -1,13 +1,13 @@
 {
     "name": "slicexapp",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "containers": [
         {
             "name": "slicexapp",
             "image": {
                 "registry": "docker.io",
                 "name": "mooncake22/slicexapp",
-                "tag": "0.0.1"
+                "tag": "0.0.2"
             }
         }
     ],
@@ -66,5 +66,13 @@
     },
     "db" : {
         "waitForSdl": false
+    },
+    "influxdb": {
+        "host"    : "ricplt-influxdb.ricplt.svc.cluster.local",
+        "port"    : "8086",
+        "user"    : "admin",
+        "password": "WKgvgGt5ni",
+        "dbname"  : "kpm"
+        
     }
 }

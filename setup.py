@@ -25,7 +25,7 @@ def read(fname):
 
 setup(
     name='slicexapp',
-    version='0.0.1',
+    version='0.0.2',
     packages=find_packages(),
     license='Apache 2.0',
     description="Slice XAPP for O-RAN RIC Platform",

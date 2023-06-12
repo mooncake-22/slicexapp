@@ -23,10 +23,9 @@ from .utils.constants import Constants
 from .utils.type import RRMPolicy, E2NodeCommon
 from .manager import *
 from .handler import *
-
+from .database import DATABASE
 import schedule
 import random
-import json
 
 class SliceXapp:
 
@@ -41,6 +40,7 @@ class SliceXapp:
 
         self._rmr_xapp.logger.info("SliceXapp.__init__:: Invoke to initialize gRPC Control Request")
         self.grpc = GRPCHandler(Constants.RCXAPP_GRPC_SERVER_IP, Constants.RCXAPP_GRPC_SERVER_PORT)
+        self.db = DATABASE()
 
     def _post_init(self, rmr_xapp):
         """
@@ -94,9 +94,11 @@ class SliceXapp:
         pass
 
     def getE2NodeInfo(self):
+        # Todo: Use RNIB
         e2NodeInfo = E2NodeCommon(
-            ranName        = "gnb_311_048_00000001",
-            ranFuncId      = 300
+            ranName   = "gnb_311_048_0000000a",
+            plmnId    = "001f01",
+            ranFuncId = 300
         )
         return e2NodeInfo
 
@@ -106,51 +108,80 @@ class SliceXapp:
             DRBUEThpDl.append(1000*random.random())
 
         return DRBUEThpDl
-
+    
     def predict(self):
         """
         Read the data, calculate the PRB for each slice 
         """
-        numSlice = self.a1Policy.getNumPolicy()
-        policyList = self.a1Policy.getPolicy()
+        e2NodeInfo = self.getE2NodeInfo()
 
-        self._rmr_xapp.logger.info("There are {} slice defined by A1 policy".format(numSlice))
+        # Read cell-level data
+        celldata = self.db.read_cell_data(e2NodeInfo.ranName)
+        
+        if celldata == False:
+            return
+        
+        self._rmr_xapp.logger.info("SliceXapp.predict: For RanName {}, Cell-level data are {}".format(e2NodeInfo.ranName, celldata))
 
-        if numSlice == 0:
-            self._rmr_xapp.logger.info("Skip PRB allocation due to no slice defined by A1 policy")
+        # Read slice-level data 
+        slicedata = self.db.read_slice_data(e2NodeInfo.ranName)
+
+        if slicedata == False:
             return
 
-        DrbUeThpDl = self.readData(numSlice)
-        DedicatePrbRatio = []
+        for i in slicedata:
+            self._rmr_xapp.logger.info("SliceXapp.predict: For RanName {} SliceId {}, Slice-level data are {}".format(e2NodeInfo.ranName, i["SliceId"], i))
+
+        # Calculate PRB
+
+        # Send Control Request
+        
+        return
     
-        for i in range(len(DrbUeThpDl)):
-            if i != len(DrbUeThpDl)-1:
-                val = int((DrbUeThpDl[i]/sum(DrbUeThpDl))*100)
-            else:
-                val = 100 - sum(DedicatePrbRatio)
+    # def predict(self):
+    #     """
+    #     Read the data, calculate the PRB for each slice 
+    #     """
+    #     numSlice = self.a1Policy.getNumPolicy()
+    #     policyList = self.a1Policy.getPolicy()
+
+    #     self._rmr_xapp.logger.info("There are {} slice defined by A1 policy".format(numSlice))
+
+    #     if numSlice == 0:
+    #         self._rmr_xapp.logger.info("Skip PRB allocation due to no slice defined by A1 policy")
+    #         return
+
+    #     DrbUeThpDl = self.readData(numSlice)
+    #     DedicatePrbRatio = []
+    
+    #     for i in range(len(DrbUeThpDl)):
+    #         if i != len(DrbUeThpDl)-1:
+    #             val = int((DrbUeThpDl[i]/sum(DrbUeThpDl))*100)
+    #         else:
+    #             val = 100 - sum(DedicatePrbRatio)
         
-            DedicatePrbRatio.append(val)
+    #         DedicatePrbRatio.append(val)
         
-        for i in range(len(DedicatePrbRatio)):
-            self._rmr_xapp.logger.info("Slice {SliceId}: DedicatedPRBRatio = {DedicatPRBRatio}%"
-                                       .format(SliceId=i+1, DedicatPRBRatio=DedicatePrbRatio[i]))
+    #     for i in range(len(DedicatePrbRatio)):
+    #         self._rmr_xapp.logger.info("Slice {SliceId}: DedicatedPRBRatio = {DedicatPRBRatio}%"
+    #                                    .format(SliceId=i+1, DedicatPRBRatio=DedicatePrbRatio[i]))
         
-        v = 0
-        rrmPolicyList = []
-        for i in policyList:
-            rrmPolicy = RRMPolicy(
-                plmnId = policyList[i]["Member"]["PlmnId"],
-                sst    = policyList[i]["Member"]["Sst"],
-                sd     = policyList[i]["Member"]["Sd"],
-                maxPRB = 100,
-                minPRB = DedicatePrbRatio[v],
-                dedPRB = DedicatePrbRatio[v]
-            )
-            v = v + 1
-            rrmPolicyList.append(rrmPolicy)
+    #     v = 0
+    #     rrmPolicyList = []
+    #     for i in policyList:
+    #         rrmPolicy = RRMPolicy(
+    #             plmnId = policyList[i]["Member"]["PlmnId"],
+    #             sst    = policyList[i]["Member"]["Sst"],
+    #             sd     = policyList[i]["Member"]["Sd"],
+    #             maxPRB = 100,
+    #             minPRB = DedicatePrbRatio[v],
+    #             dedPRB = DedicatePrbRatio[v]
+    #         )
+    #         v = v + 1
+    #         rrmPolicyList.append(rrmPolicy)
         
-        e2NodeInfo = self.getE2NodeInfo()
-        self.grpc.send_control_req(e2NodeInfo, rrmPolicyList)
+    #     e2NodeInfo = self.getE2NodeInfo()
+    #     self.grpc.send_control_req(e2NodeInfo, rrmPolicyList)
 
     def entry(self):
         """
