@@ -1,7 +1,8 @@
 class E2NodeCommon():
-    def __init__(self, ranName="", ranFuncId: int = 0):
+    def __init__(self, ranName: str ="", ranFuncId: int = 0, plmnId: str = ""):
         self.ranName        = ranName
         self.ranFuncId      = ranFuncId
+        self.plmnId         = plmnId
 
 class RRMPolicy():
     def __init__(self, plmnId="", sst="", sd="", maxPRB: int = 100, minPRB: int = 100, dedPRB: int = 0):

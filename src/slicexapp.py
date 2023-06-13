@@ -24,6 +24,7 @@ from .utils.type import RRMPolicy, E2NodeCommon
 from .manager import *
 from .handler import *
 from .database import DATABASE
+from .algorithm import Algorithm
 import schedule
 import random
 
@@ -90,14 +91,11 @@ class SliceXapp:
         """
         self._rmr_xapp.stop()
 
-    def sendControlRequest(self):
-        pass
-
     def getE2NodeInfo(self):
         # Todo: Use RNIB
         e2NodeInfo = E2NodeCommon(
             ranName   = "gnb_311_048_0000000a",
-            plmnId    = "001f01",
+            plmnId    = "311048",
             ranFuncId = 300
         )
         return e2NodeInfo
@@ -119,6 +117,7 @@ class SliceXapp:
         celldata = self.db.read_cell_data(e2NodeInfo.ranName)
         
         if celldata == False:
+            self._rmr_xapp.logger.info("SliceXapp.predict: No record fround from influxdb with 5s for RanName {}, skip".format(e2NodeInfo.ranName))
             return
         
         self._rmr_xapp.logger.info("SliceXapp.predict: For RanName {}, Cell-level data are {}".format(e2NodeInfo.ranName, celldata))
@@ -127,14 +126,48 @@ class SliceXapp:
         slicedata = self.db.read_slice_data(e2NodeInfo.ranName)
 
         if slicedata == False:
+            self._rmr_xapp.logger.info("SliceXapp.predict: No record fround from influxdb with 5s for RanName {}, skip".format(e2NodeInfo.ranName))
             return
+
+        sliceId = []
+        current_throughput = []
+        total_prb_used = []
 
         for i in slicedata:
             self._rmr_xapp.logger.info("SliceXapp.predict: For RanName {} SliceId {}, Slice-level data are {}".format(e2NodeInfo.ranName, i["SliceId"], i))
+            sliceId.append(i["SliceId"])
+            current_throughput.append(i["DRB_UEThpDl_SNSSAI"])
+            total_prb_used.append(i["RRU_PrbUsedDl_SNSSAI"])
 
         # Calculate PRB
 
+        algorithm = Algorithm()
+        dedicated_ratio, min_ratio = algorithm.run(
+            target_throughput = [100000, 100000, 100000],
+            current_throughput = current_throughput,
+            total_prb_avail = celldata["RRU_PrbAvailDl"],
+            total_prb_used = total_prb_used
+        )
+
+        dedicated_ratio = algorithm.check_constrant(dedicated_ratio)
+        min_ratio = algorithm.check_constrant(min_ratio)
+
         # Send Control Request
+
+        rrmPolicyList = []
+        for i in range(0, len(sliceId)):
+            rrmPolicy = RRMPolicy(
+                plmnId = e2NodeInfo.plmnId,
+                sst    = sliceId[i][:2],
+                sd     = sliceId[i][2:],
+                maxPRB = 100,
+                minPRB = min_ratio[i],
+                dedPRB = dedicated_ratio[i]
+            )
+            rrmPolicyList.append(rrmPolicy)
+        
+        e2NodeInfo = self.getE2NodeInfo()
+        self.grpc.send_control_req(e2NodeInfo, rrmPolicyList)
         
         return
     
