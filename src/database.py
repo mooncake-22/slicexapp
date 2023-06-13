@@ -99,7 +99,7 @@ class DATABASE(object):
         select * from CellMetrics group by * order by time desc limit 1
 
         """
-        query = 'select "DRB.UEThpDl", "RRU.PrbAvailDl", "RRU.PrbTotDl", "RRU.PrbUsedDl" from CellMetrics where "RanName" = \'{}\' order by time desc limit 1'
+        query = 'select "DRB.UEThpDl", "RRU.PrbAvailDl", "RRU.PrbTotDl", "RRU.PrbUsedDl" from CellMetrics where "RanName" = \'{}\' and time > now() - 5s order by time desc limit 1'
         results = self.query(query.format(RanName))
         if results == False:
             return False
@@ -143,7 +143,7 @@ class DATABASE(object):
 
         """
 
-        query = 'select "DRB.UEThpDl.SNSSAI", "RRU.PrbUsedDl.SNSSAI" from SliceMetrics where "RanName" = \'{}\' group by * order by time desc limit 1'
+        query = 'select "DRB.UEThpDl.SNSSAI", "RRU.PrbUsedDl.SNSSAI" from SliceMetrics where "RanName" = \'{}\' and time > now() - 5s group by * order by time desc limit 1'
         results = self.query(query.format(RanName))
         if results == False:
             return False
