@@ -117,7 +117,7 @@ class SliceXapp:
         celldata = self.db.read_cell_data(e2NodeInfo.ranName)
         
         if celldata == False:
-            self._rmr_xapp.logger.info("SliceXapp.predict: No record fround from influxdb with 5s for RanName {}, skip".format(e2NodeInfo.ranName))
+            self._rmr_xapp.logger.info("SliceXapp.predict:  Skip for RanName {}, no record fround from influxdb within 5s or record is not complete".format(e2NodeInfo.ranName))
             return
         
         self._rmr_xapp.logger.info("SliceXapp.predict: For RanName {}, Cell-level data are {}".format(e2NodeInfo.ranName, celldata))
@@ -126,7 +126,7 @@ class SliceXapp:
         slicedata = self.db.read_slice_data(e2NodeInfo.ranName)
 
         if slicedata == False:
-            self._rmr_xapp.logger.info("SliceXapp.predict: No record fround from influxdb with 5s for RanName {}, skip".format(e2NodeInfo.ranName))
+            self._rmr_xapp.logger.info("SliceXapp.predict:  Skip for RanName {}, no record fround from influxdb within 5s or record is not complete".format(e2NodeInfo.ranName))
             return
 
         sliceId = []

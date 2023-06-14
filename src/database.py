@@ -120,6 +120,11 @@ class DATABASE(object):
             "RRU_PrbTotDl": result["RRU.PrbTotDl"]
         }
 
+        # check completeness
+        for v in data.items():
+            if v == None:
+                return False
+            
         return data
 
     def read_slice_data(self, RanName: str):
@@ -162,6 +167,11 @@ class DATABASE(object):
                 "DRB_UEThpDl_SNSSAI": fields["DRB.UEThpDl.SNSSAI"],
                 "RRU_PrbUsedDl_SNSSAI": fields["RRU.PrbUsedDl.SNSSAI"]
             }
+
+            # check completeness
+            for v in item.items():
+                if v == None:
+                    return False
             
             # append to a list
             data.append(item)
