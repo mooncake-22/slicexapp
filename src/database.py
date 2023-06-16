@@ -121,7 +121,7 @@ class DATABASE(object):
         }
 
         # check completeness
-        for v in data.items():
+        for v in data.values():
             if v == None:
                 return False
             
@@ -169,7 +169,7 @@ class DATABASE(object):
             }
 
             # check completeness
-            for v in item.items():
+            for v in item.values():
                 if v == None:
                     return False
             
