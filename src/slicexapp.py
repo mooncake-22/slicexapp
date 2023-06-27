@@ -143,7 +143,7 @@ class SliceXapp:
 
         algorithm = Algorithm()
         dedicated_ratio, min_ratio = algorithm.run(
-            target_throughput = [100000, 100000, 100000],
+            target_throughput = [800000, 400000, 400000],
             current_throughput = current_throughput,
             total_prb_avail = celldata["RRU_PrbAvailDl"],
             total_prb_used = total_prb_used
