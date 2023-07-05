@@ -32,7 +32,7 @@ class A1PolicyHandler(_BaseHandler):
 
         sliceId: 
         - rule: sliceId[policyId] = plmnId-sst-sd
-        - example: 331f01-002-00000001
+        - example: 331f01-02-00000001
 
         policy: 
         - rule: policy[policyId] = payload
@@ -97,6 +97,19 @@ class A1PolicyHandler(_BaseHandler):
     
     def getPolicy(self):
         return self.policy
+    
+    def getTargetTroughput(self, PlmnId, Sst, Sd):
+        payloads = self.policy.values()
+
+        for payload in payloads:
+            Member = payload["Member"]
+
+            # check
+            if Member["PlmnId"] == PlmnId and Member["Sst"] == Sst and Member["Sd"] == Sd:
+                return payload["SLAParameter"]["TargetThroughput"]
+            
+        # No match, return default target throughput
+        return 400000
 
     def createPolicy(self, req: dict):
         # Make sure each sliceId is only shown one time.

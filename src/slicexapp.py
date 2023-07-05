@@ -130,6 +130,7 @@ class SliceXapp:
             return
 
         sliceId = []
+        target_throughput = []
         current_throughput = []
         total_prb_used = []
 
@@ -139,11 +140,18 @@ class SliceXapp:
             current_throughput.append(i["DRB_UEThpDl_SNSSAI"])
             total_prb_used.append(i["RRU_PrbUsedDl_SNSSAI"])
 
+        # Get Target Thoughput from A1 policy
+
+        for i in sliceId:
+            target_throughput.append(self.a1Policy.getTargetTroughput(e2NodeInfo.plmnId, i[:2], i[2:]))
+
+        self._rmr_xapp.logger.info("SliceXapp.predict: For sliceId = {}, the target throughput is {}".format(sliceId, target_throughput))
+
         # Calculate PRB
 
         algorithm = Algorithm()
         dedicated_ratio, min_ratio = algorithm.run(
-            target_throughput = [800000, 400000, 400000],
+            target_throughput = target_throughput,
             current_throughput = current_throughput,
             total_prb_avail = celldata["RRU_PrbAvailDl"],
             total_prb_used = total_prb_used
