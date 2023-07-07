@@ -133,7 +133,15 @@ class A1PolicyHandler(_BaseHandler):
     def updatePolicy(self, req: dict):
         # Make sure sliceId will not changed through policy update.
         id = req["policy_instance_id"]
+        
+        # Check policyId in list
+        if id not in self.policyId:
+            self.logger.debug("A1PolicyHandler.updatePolicy:: policy_instance_id: {} doesn't exist in the list, createPolicy first.".format(id))
+            return self.createPolicy(req)
+
+        # Update the policy
         sliceId = self.extractSliceId(req)
+
         if sliceId != self.sliceId[id]:
             self.logger.error("A1PolicyHandler.updatePolicy:: Failed to update the policy due to sliceId changed: {} -> {}".format(id, sliceId))
             return False
