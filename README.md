@@ -49,21 +49,35 @@ dms_cli install slicexapp 0.0.2 ricxapp
 curl -v -X PUT "http://<RICPLT_IP>:32080/a1mediator/a1-p/policytypes/22222"   -H "accept: application/json" -H "Content-Type: application/json"   -d @./policytype.json
 ```
 
+### Step 5: Create A1 Policy Instance
+- Create Policy Instance through Non-RT RIC control panel or Use the CLI(Here we provide the CLI method)
 ```bash=
-curl -v -X GET "http://192.168.8.167:32080/a1mediator/a1-p/policytypes/22222/policies/173a7699-abc7-4575-b56a-65d3b7e58ca9/status"   -H "accept: application/json" -H "Content-Type: application/json"
+curl -v -X PUT "http://<RICPLT_IP>:32080/a1mediator/a1-p/policytypes/22222/policies/1"   -H "accept: application/json" -H "Content-Type: application/json"   -d @./policies.json
 ```
 
-### Step 5: Create A1 Policy
-- Create Policy Instance through Non-RT RIC control panel
-- Observe the behavior of the slicexapp
+- Check Policy Instance Status
+```bash=
+curl -v -X GET "http://<RICPLT_IP>:32080/a1mediator/a1-p/policytypes/22222/policies/1/status"   -H "accept: application/json" -H "Content-Type: application/json"
+```
+
+### Step 6: Check xApp Status
+```bash=
+kubectl logs -f -n ricxapp $(kubectl get pods -n ricxapp | grep slicexapp | awk '{print $1}')
+```
 
 
-### Step 6: Delete A1 PolicyType Definition
+## Undo
+### Step 1: Delete All the A1 Policy Instances
+```bash=
+curl -v -X DELETE "http://<RICPLT_IP>:32080/a1mediator/a1-p/policytypes/22222/policies/1"   -H "accept: application/json" -H "Content-Type: application/json"
+```
+
+### Step 2: Delete A1 PolicyType Definition
 ```bash=
 curl -v -X DELETE "http://<RICPLT_IP>:32080/a1mediator/a1-p/policytypes/22222"   -H "accept: application/json" -H "Content-Type: application/json"
 ```
 
-### Step 7: Undeploy slicexapp on the RIC platform
+### Step 3: Undeploy slicexapp on the RIC platform
 ```bash=
 dms_cli uninstall slicexapp ricxapp
 ```

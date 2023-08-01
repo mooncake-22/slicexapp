@@ -1,0 +1,10 @@
+{
+    "Member": {
+        "PlmnId": "311048",
+        "Sst": "02",
+        "Sd": "030304"
+    },
+    "SLAParameter": {
+        "TargetThroughput": 700000
+    }
+}
