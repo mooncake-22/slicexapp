@@ -27,6 +27,7 @@ from .database import DATABASE
 from .algorithm import Algorithm
 import schedule
 import random
+import math
 
 class SliceXapp:
 
@@ -125,7 +126,7 @@ class SliceXapp:
         # Read slice-level data 
         slicedata = self.db.read_slice_data(e2NodeInfo.ranName)
 
-        if slicedata == False:
+        if slicedata == False or len(slicedata) == 0:
             self._rmr_xapp.logger.info("SliceXapp.predict:  Skip for RanName {}, no record fround from influxdb within 5s or record is not complete".format(e2NodeInfo.ranName))
             return
 
@@ -157,8 +158,11 @@ class SliceXapp:
             total_prb_used = total_prb_used
         )
 
-        dedicated_ratio = algorithm.check_constrant(dedicated_ratio)
-        min_ratio = algorithm.check_constrant(min_ratio)
+        # dedicated_ratio = algorithm.check_constrant(dedicated_ratio)
+        # min_ratio = algorithm.check_constrant(min_ratio)
+        dedicated_ratio = [math.floor(num) for num in dedicated_ratio]
+        min_ratio = [math.floor(num) for num in min_ratio]
+
 
         # Send Control Request
 
